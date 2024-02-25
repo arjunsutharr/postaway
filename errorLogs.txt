@@ -1,0 +1,21 @@
+{"level":"error","message":"Sun Feb 25 2024 15:57:27 GMT+0530 (India Standard Time) request URL: /api/users/get-details/65db1419e0001c22654775b5 Error: ReferenceError: newUser is not defined"}
+{"level":"error","message":"Sun Feb 25 2024 15:57:59 GMT+0530 (India Standard Time) request URL: /api/users/get-details/65db1419e0001c22654775b5 Error: ReferenceError: newUser is not defined"}
+{"level":"error","message":"Sun Feb 25 2024 16:00:20 GMT+0530 (India Standard Time) request URL: /api/users/signin Error: Error: user not found"}
+{"level":"error","message":"Sun Feb 25 2024 16:20:49 GMT+0530 (India Standard Time) request URL: /api/users/get-all-details TypeError: Cannot read properties of undefined (reading 'success')"}
+{"level":"error","message":"Sun Feb 25 2024 16:20:50 GMT+0530 (India Standard Time) request URL: /api/users/get-all-details TypeError: Cannot read properties of undefined (reading 'success')"}
+{"level":"error","message":"Sun Feb 25 2024 16:43:10 GMT+0530 (India Standard Time) request URL: /api/users/update-details/65dae48bcf975b48264f17d1 TypeError: userController.getDetailsAll is not a function"}
+{"level":"error","message":"Sun Feb 25 2024 16:43:39 GMT+0530 (India Standard Time) request URL: /api/users/update-details/65dae48bcf975b48264f17d1 TypeError: userController.getDetailsAll is not a function"}
+{"level":"error","message":"Sun Feb 25 2024 16:48:49 GMT+0530 (India Standard Time) request URL: /api/users/update-details/65dae48bcf975b48264f17d1 Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client"}
+{"level":"error","message":"Sun Feb 25 2024 18:32:36 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {\"caption\":\"Let's dive in MERN \"} TypeError: postController.logout is not a function"}
+{"level":"error","message":"Sun Feb 25 2024 18:36:31 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {} MulterError: Unexpected field"}
+{"level":"error","message":"Sun Feb 25 2024 18:47:53 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {\"caption\":\"Let's dive in MERN \"} TypeError: Cannot read properties of undefined (reading 'filename')"}
+{"level":"error","message":"Sun Feb 25 2024 18:49:56 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {\"caption\":\"Let's dive in MERN \"} TypeError: Cannot read properties of undefined (reading 'filename')"}
+{"level":"error","message":"Sun Feb 25 2024 18:50:31 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {\"caption\":\"Let's dive in MERN \"} TypeError: Cannot read properties of undefined (reading 'filename')"}
+{"level":"error","message":"Sun Feb 25 2024 18:51:58 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {\"caption\":\"Let's dive in MERN \"} TypeError: Cannot read properties of undefined (reading 'filename')"}
+{"level":"error","message":"Sun Feb 25 2024 18:52:20 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {} TypeError: Cannot read properties of undefined (reading 'filename')"}
+{"level":"error","message":"Sun Feb 25 2024 18:52:54 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {} TypeError: Cannot destructure property 'filename' of 'req.file' as it is undefined."}
+{"level":"error","message":"Sun Feb 25 2024 18:53:22 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {} TypeError: Cannot destructure property 'filename' of '(req.file || null)' as it is null."}
+{"level":"error","message":"Sun Feb 25 2024 18:53:58 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {} TypeError: Cannot read properties of undefined (reading 'filename')"}
+{"level":"error","message":"Sun Feb 25 2024 18:55:49 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {} TypeError: Cannot read properties of undefined (reading 'filename')"}
+{"level":"error","message":"Sun Feb 25 2024 18:56:30 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {} TypeError: Cannot read properties of undefined (reading 'filename')"}
+{"level":"error","message":"Sun Feb 25 2024 19:01:01 GMT+0530 (India Standard Time) request URL: /api/posts/ reqBody: {} TypeError: Cannot read properties of undefined (reading 'filename')"}
