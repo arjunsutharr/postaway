@@ -19,6 +19,7 @@ app.use(express.json());
 // For client req logging
 app.use(loggerMiddleware);
 
+app.use("/api/likes", likeRouter); //Like Routes
 app.use("/api/comments", commentRouter); //Comment Routes
 app.use("/api/posts", postRouter); //Post Routes
 app.use("/api/users", userRouter); //User Routes
