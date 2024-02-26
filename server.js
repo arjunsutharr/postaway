@@ -8,6 +8,7 @@ import { invalidRoutesHandlerMiddleware } from "./src/middlewares/invalidRoutesH
 import { connectToMongoDb } from "./src/config/mongoDB.js";
 import userRouter from "./src/features/user/user.routes.js";
 import postRouter from "./src/features/post/post.routes.js";
+import commentRouter from "./src/features/comment/comment.routes.js";
 import likeRouter from "./src/features/like/like.routes.js";
 
 const app = express();
@@ -18,12 +19,13 @@ app.use(express.json());
 // For client req logging
 app.use(loggerMiddleware);
 
+app.use("/api/comments", commentRouter); //Comment Routes
 app.use("/api/posts", postRouter); //Post Routes
 app.use("/api/users", userRouter); //User Routes
 
 // Default request handler
 app.get("/", (req, res) => {
-  res.status(200).send("Welcome to Postway apis");
+  res.status(200).send("Welcome to Postaway apis");
 });
 
 // error handler middlerware

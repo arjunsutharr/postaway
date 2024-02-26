@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { CustomErrorHandler } from "../error-handler/errorHandler.js";
 
-const baseUrl = process.env.DB_URL || "mongodb://0.0.0.0:27017/postway";
+const baseUrl = process.env.DB_URL || "mongodb://0.0.0.0:27017/postaway";
 
 export const connectToMongoDb = async () => {
   try {
