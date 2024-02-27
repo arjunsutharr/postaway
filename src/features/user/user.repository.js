@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { userSchema } from "./user.shcema.js";
+import { userSchema } from "./user.schema.js";
 import { CustomErrorHandler } from "../../error-handler/errorHandler.js";
 
 const UserModel = mongoose.model("user", userSchema);

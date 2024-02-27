@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { friendSchema } from "./schema/friends.schema.js";
 import { friendRequestSchema } from "./schema/friendRequests.schema.js";
-import { userSchema } from "../user/user.shcema.js";
+import { userSchema } from "../user/user.schema.js";
 import { CustomErrorHandler } from "../../error-handler/errorHandler.js";
 
 const FriendModel = mongoose.model("friend", friendSchema);

@@ -11,6 +11,7 @@ import postRouter from "./src/features/post/post.routes.js";
 import commentRouter from "./src/features/comment/comment.routes.js";
 import likeRouter from "./src/features/like/like.routes.js";
 import friendRouter from "./src/features/friends/friends.routes.js";
+import otpRouter from "./src/features/otp/otp.routes.js";
 
 const app = express();
 
@@ -20,7 +21,8 @@ app.use(express.json());
 // For client req logging
 app.use(loggerMiddleware);
 
-app.use("/api/friends", friendRouter); //friend Routes
+app.use("/api/otp", otpRouter); //Otp Routes
+app.use("/api/friends", friendRouter); //Friend Routes
 app.use("/api/likes", likeRouter); //Like Routes
 app.use("/api/comments", commentRouter); //Comment Routes
 app.use("/api/posts", postRouter); //Post Routes
