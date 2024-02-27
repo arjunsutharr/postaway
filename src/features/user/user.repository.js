@@ -102,7 +102,10 @@ export default class UserRepository {
         (tokenObj) => tokenObj.token == token
       );
       if (!foundToken) {
-        return { success: false, res: "Already logged out." };
+        return {
+          success: false,
+          res: "Unauthorized!! Token no logger usable. login to continue.",
+        };
       } else {
         return { success: true };
       }
