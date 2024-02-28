@@ -18,10 +18,17 @@ export default class OtpRepository {
 
       const otp = this.generateOtp();
 
-      await OtpModel.create({
-        email,
-        otp,
-      });
+      const updateOtp = await OtpModel.findOneAndUpdate(
+        { email },
+        { otp: otp }
+      );
+
+      if (!updateOtp) {
+        await OtpModel({
+          email,
+          otp,
+        }).save();
+      }
 
       const transporter = nodemailer.createTransport({
         service: "gmail",

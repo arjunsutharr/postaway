@@ -106,7 +106,7 @@ export default class FriendsRepository {
       }
     } catch (error) {
       if (error instanceof mongoose.Error.ValidationError) {
-        throw new CustomErrorHandler(error.statusCode, error.message);
+        throw new CustomErrorHandler(400, error);
       } else if (error instanceof CustomErrorHandler) {
         throw new CustomErrorHandler(error.statusCode, error.message);
       } else {
@@ -194,7 +194,7 @@ export default class FriendsRepository {
       };
     } catch (error) {
       if (error instanceof mongoose.Error.ValidationError) {
-        throw new CustomErrorHandler(error.statusCode, error.message);
+        throw new CustomErrorHandler(400, error);
       } else if (error instanceof CustomErrorHandler) {
         throw new CustomErrorHandler(error.statusCode, error.message);
       } else {

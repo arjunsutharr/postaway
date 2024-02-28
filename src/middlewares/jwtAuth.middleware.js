@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import UserRepository from "../features/user/user.repository.js";
+import { CustomErrorHandler } from "../error-handler/errorHandler.js";
 const userRepository = new UserRepository();
 
 const jwtAuth = async (req, res, next) => {
@@ -18,19 +19,10 @@ const jwtAuth = async (req, res, next) => {
           req.userId,
           jwtToken
         );
-        if (foundToken.success) {
-          next();
-        } else {
-          res.status(400).json({
-            success: false,
-            msg: foundToken.res,
-          });
-        }
+
+        next();
       } catch (error) {
-        res.status(500).json({
-          success: false,
-          msg: "something went wrong!! try later!",
-        });
+        next(error);
       }
     }
   });

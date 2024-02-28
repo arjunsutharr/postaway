@@ -10,7 +10,6 @@ export class CustomErrorHandler extends Error {
 
 export const appLevelErrorHandlerMiddleware = (err, req, res, next) => {
   if (err instanceof CustomErrorHandler) {
-    console.log(err);
     err.statusCode = err.statusCode || 500;
     err.message = err.message || "server error! Please Try Later!!";
     res.status(err.statusCode).json({ success: false, error: err.message });
