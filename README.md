@@ -124,7 +124,7 @@ To run the project locally, follow these steps:
 
 1. Clone the repository: `git clone <https://github.com/arjunsutharr/postaway> `
 2. Install dependencies: `npm install`
-3. Configure environment variables.
+3. Configure environment variables(DB_URL, JWT_SECRET).
 4. Start the server: `node server.js`
 5. Access API endpoints: Use tools like Postman to interact with the API. Refer to specific API documentation for detailed endpoint information and usage guidelines.
 
