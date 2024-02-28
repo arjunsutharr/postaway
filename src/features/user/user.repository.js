@@ -9,11 +9,13 @@ const UserModel = mongoose.model("user", userSchema);
 export default class UserRepository {
   async signUp(userData) {
     try {
-      let { password } = userData;
-      password = await bcrypt.hash(password, 12);
+      const { password, name, email, gender } = userData;
+      const hashedPassword = await bcrypt.hash(password, 12);
       const newUser = await new UserModel({
-        ...userData,
-        password,
+        name,
+        email,
+        password: hashedPassword,
+        gender,
       }).save();
 
       const selectedUserProperties = {
@@ -22,9 +24,20 @@ export default class UserRepository {
         email: newUser.email,
         gender: newUser.gender,
       };
-      return { success: true, res: selectedUserProperties };
+      return selectedUserProperties;
     } catch (error) {
-      throw new CustomErrorHandler(400, error);
+      if (error instanceof mongoose.Error) {
+        throw new CustomErrorHandler(400, error);
+      } else if (error.name === "MongoServerError" && error.code === 11000) {
+        throw new CustomErrorHandler(
+          400,
+          "Email already exists. Please try a different email address."
+        );
+      } else if (error instanceof CustomErrorHandler) {
+        throw new CustomErrorHandler(error.statusCode, error);
+      } else {
+        throw error;
+      }
     }
   }
 
@@ -47,12 +60,16 @@ export default class UserRepository {
 
         user.tokens.push({ token });
         await user.save();
-        return { success: true, res: token };
+        return token;
       } else {
         throw new CustomErrorHandler(400, "Invalid Credentials");
       }
     } catch (error) {
-      throw new CustomErrorHandler(error.statusCode, error);
+      if (error instanceof CustomErrorHandler) {
+        throw new CustomErrorHandler(error.statusCode, error);
+      } else {
+        throw error;
+      }
     }
   }
 
@@ -64,15 +81,16 @@ export default class UserRepository {
       );
 
       if (update.modifiedCount > 0) {
-        return { success: true, res: "Successfully logged out." };
+        return "Successfully logged out.";
       } else {
-        return { success: false, res: "failed to logout" };
+        throw new CustomErrorHandler(500, "failed to logout.");
       }
     } catch (error) {
-      throw new CustomErrorHandler(
-        500,
-        "Error while logging out! Please try later."
-      );
+      if (error instanceof CustomErrorHandler) {
+        throw new CustomErrorHandler(error.statusCode, error);
+      } else {
+        throw error;
+      }
     }
   }
 
@@ -80,15 +98,16 @@ export default class UserRepository {
     try {
       const user = UserModel.findById(userId);
       if (!user) {
-        return { success: false, res: "User not found" };
+        throw new CustomErrorHandler(404, "user not found.");
       }
       await UserModel.updateMany({ _id: userId }, { $pull: { tokens: {} } });
-      return { success: true };
+      return "Successfully logged out from all the devices.";
     } catch (error) {
-      throw new CustomErrorHandler(
-        500,
-        "Error while logging out! Please try later."
-      );
+      if (error instanceof CustomErrorHandler) {
+        throw new CustomErrorHandler(error.statusCode, error);
+      } else {
+        throw error;
+      }
     }
   }
 
@@ -96,43 +115,49 @@ export default class UserRepository {
     try {
       const user = await UserModel.findById(userId);
       if (!user) {
-        return { success: false, res: "user not found" };
+        throw new CustomErrorHandler(404, "user not found.");
       }
+
       const foundToken = user.tokens.find(
         (tokenObj) => tokenObj.token == token
       );
+
       if (!foundToken) {
-        return {
-          success: false,
-          res: "Unauthorized!! Token no logger usable. login to continue.",
-        };
-      } else {
-        return { success: true };
+        throw new CustomErrorHandler(
+          400,
+          "Unauthorized!! Token no logger usable. Get a new token and try again."
+        );
       }
     } catch (error) {
-      throw new CustomErrorHandler(500, "server error! please  try later");
+      if (error instanceof CustomErrorHandler) {
+        throw new CustomErrorHandler(error.statusCode, error);
+      } else {
+        throw error;
+      }
     }
   }
 
   async get(userId) {
     try {
       const user = await UserModel.findById(userId);
-      if (user) {
-        const selectedUserProperties = {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          gender: user.gender,
-        };
-        return { success: true, res: selectedUserProperties };
-      } else {
-        return false;
+
+      if (!user) {
+        throw new CustomErrorHandler(404, "user not found.");
       }
+
+      const selectedUserProperties = {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        gender: user.gender,
+      };
+      return selectedUserProperties;
     } catch (error) {
-      throw new CustomErrorHandler(
-        500,
-        "Error while getting the user details please try later."
-      );
+      if (error instanceof CustomErrorHandler) {
+        throw new CustomErrorHandler(error.statusCode, error);
+      } else {
+        throw error;
+      }
     }
   }
 
@@ -148,23 +173,34 @@ export default class UserRepository {
         }
       );
     } catch (error) {
-      throw new CustomErrorHandler(
-        500,
-        "Error while getting the user details please try later."
-      );
+      throw error;
     }
   }
 
   async update(userId, updatedDetails) {
     try {
       const { password, ...otherDetails } = updatedDetails;
+
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new CustomErrorHandler(400, "Invalid ID");
+      }
+
+      const userExists = await UserModel.findById(userId);
+
+      if (!userExists) {
+        throw new CustomErrorHandler(404, "user not found");
+      }
+
       const user = await UserModel.findByIdAndUpdate(userId, otherDetails, {
         new: true,
         runValidators: true,
       });
 
       if (!user) {
-        throw new CustomErrorHandler(400, "User not found");
+        throw new CustomErrorHandler(
+          400,
+          "Unauthorized action!!! Only profile owner can change there details."
+        );
       }
 
       const selectedUserProperties = {
@@ -175,11 +211,13 @@ export default class UserRepository {
       };
       return selectedUserProperties;
     } catch (error) {
-      console.log(error);
-      throw new CustomErrorHandler(
-        500,
-        "Failed to update the user details!! Please try later!"
-      );
+      if (error instanceof mongoose.Error.ValidationError) {
+        throw new CustomErrorHandler(400, error);
+      } else if (error instanceof CustomErrorHandler) {
+        throw new CustomErrorHandler(error.statusCode, error);
+      } else {
+        throw error;
+      }
     }
   }
 }

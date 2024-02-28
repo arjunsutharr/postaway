@@ -9,7 +9,7 @@ export const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email is required."],
-    unique: { message: "This email address is already registered." },
+    unique: { message: "Duplicate email" },
     match: [
       /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
       "Please enter a valid email",

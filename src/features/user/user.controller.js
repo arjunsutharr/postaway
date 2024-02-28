@@ -7,10 +7,16 @@ export default class UserController {
 
   async signUp(req, res, next) {
     try {
-      const user = await this.userRepository.signUp(req.body);
-      if (user.success) {
-        res.status(201).json({ success: true, res: user.res });
+      const { name, email, password, gender } = req.body;
+
+      if (!name || !email || !password || !gender) {
+        return res.status(400).json({
+          success: false,
+          msg: "All fields name, email, password and gender is required.",
+        });
       }
+      const user = await this.userRepository.signUp(req.body);
+      res.status(201).json({ success: true, res: user });
     } catch (error) {
       next(error);
     }
@@ -20,18 +26,17 @@ export default class UserController {
     try {
       const { email, password } = req.body;
       if (!email || !password) {
-        res
+        return res
           .status(400)
           .json({ success: false, msg: "Please provide email and password" });
       }
-      const user = await this.userRepository.signIn(email, password);
-      if (user.success) {
-        res.status(200).json({
-          success: true,
-          msg: "User login successful.",
-          token: user.res,
-        });
-      }
+      const token = await this.userRepository.signIn(email, password);
+
+      res.status(200).json({
+        success: true,
+        msg: "User login successful.",
+        token: token,
+      });
     } catch (error) {
       next(error);
     }
@@ -42,11 +47,8 @@ export default class UserController {
       const token = req.headers["authorization"];
       const userId = req.userId;
       const resp = await this.userRepository.logout(userId, token);
-      if (resp.success) {
-        res.status(200).json({ success: true, msg: resp.res });
-      } else {
-        res.status(400).json({ success: false, msg: resp.res });
-      }
+
+      res.status(200).json({ success: true, msg: resp });
     } catch (error) {
       next(error);
     }
@@ -56,17 +58,11 @@ export default class UserController {
     try {
       const userId = req.userId;
       const resp = await this.userRepository.logoutAll(userId);
-      if (resp.success) {
-        res.status(200).json({
-          success: true,
-          msg: "Successfully logged out from all the devices.",
-        });
-      } else {
-        res.status(400).json({
-          success: false,
-          msg: resp.res,
-        });
-      }
+
+      res.status(200).json({
+        success: true,
+        msg: resp,
+      });
     } catch (error) {
       next(error);
     }
@@ -79,11 +75,7 @@ export default class UserController {
         res.status(400).json({ success: false, msg: "User id is required." });
       }
       const user = await this.userRepository.get(userId);
-      if (user.success) {
-        res.status(200).json({ success: true, res: user.res });
-      } else {
-        res.status(404).json({ success: false, msg: "User not found." });
-      }
+      res.status(200).json({ success: true, res: user });
     } catch (error) {
       next(error);
     }
@@ -92,11 +84,7 @@ export default class UserController {
   async getAll(req, res, next) {
     try {
       const users = await this.userRepository.getAll();
-      if (users) {
-        res.status(200).json({ success: true, users: users });
-      } else {
-        res.status(404).json({ success: false, msg: "Users not found." });
-      }
+      res.status(200).json({ success: true, users: users });
     } catch (error) {
       next(error);
     }
@@ -104,23 +92,35 @@ export default class UserController {
 
   async update(req, res, next) {
     try {
-      const userId = req.params.userId;
+      const givenUserId = req.params.userId;
       const updateDetails = req.body;
-      if (!userId) {
-        res.status(400).json({ success: false, msg: "User id is required." });
+      const { userId } = req;
+
+      if (!givenUserId) {
+        return res
+          .status(400)
+          .json({ success: false, msg: "User id is required." });
       }
+
+      if (givenUserId !== userId) {
+        return res.status(400).json({
+          success: false,
+          msg: "Only profile owner can change there details",
+        });
+      }
+
       if (!updateDetails) {
-        res
+        return res
           .status(400)
           .json({ success: false, msg: "User updated details are required." });
       }
+
       const updatedUser = await this.userRepository.update(
         userId,
         updateDetails
       );
-      if (updatedUser) {
-        res.status(200).json({ success: true, res: updatedUser });
-      }
+
+      res.status(200).json({ success: true, res: updatedUser });
     } catch (error) {
       next(error);
     }
