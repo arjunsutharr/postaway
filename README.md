@@ -36,7 +36,7 @@ The Social Media Backend REST-API that empowers users to post, comment, like, se
 
 The project follows a structured folder organization:
 
-- postaway-2/
+- postaway/
   - |- config/ # Database connection configuration
   - |- error-handler/ # Error handling Middleware functions
   - |- features/ # Project feature directories
