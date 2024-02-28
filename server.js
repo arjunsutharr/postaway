@@ -4,7 +4,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import { loggerMiddleware } from "./src/middlewares/logger.middleware.js";
 import { appLevelErrorHandlerMiddleware } from "./src/error-handler/errorHandler.js";
-import { invalidRoutesHandlerMiddleware } from "./src/middlewares/invalidRoutesHandlerMiddleware.js";
+import { invalidRoutesHandlerMiddleware } from "./src/middlewares/invalidRoutesHandler.middleware.js";
 import { connectToMongoDb } from "./src/config/mongoDB.js";
 import userRouter from "./src/features/user/user.routes.js";
 import postRouter from "./src/features/post/post.routes.js";
