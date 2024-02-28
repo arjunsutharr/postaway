@@ -122,7 +122,7 @@ The project follows a structured folder organization:
 
 To run the project locally, follow these steps:
 
-1. Clone the repository: `git clone `
+1. Clone the repository: `git clone <https://github.com/arjunsutharr/postaway> `
 2. Install dependencies: `npm install`
 3. Configure environment variables.
 4. Start the server: `node server.js`
